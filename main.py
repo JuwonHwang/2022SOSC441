@@ -8,6 +8,8 @@ black = [-1,-1,-1]
 wait_time = 0.5
 win = visual.Window(ws,[30,30],color=black, fullscr=True)
 
+loudness = [1,2,3,4,5]
+test_loundness = randint(1,5)
 
 def wp(position):
     return [position[0]/ws[0],position[1]/ws[1]]
@@ -27,9 +29,9 @@ def imagine(_win,_lines):
 linelength = 30
 lines = [visual.Line(win, start=wp([0,linelength]), end=wp([0,-linelength])),
         visual.Line(win, start=wp([linelength,0]), end=wp([-linelength,0]))]
-stim_text = 'Loud / Small'
+stim_text = 'Loud / Soft'
 message = visual.TextStim(win, font='Malgun Gothic', color = 'white', text = stim_text) 
-select_text = '1 / 2'
+select_text = loudness
 select_message = visual.TextStim(win, font='Malgun Gothic', color = 'white', text = select_text) 
 
 # select loud or small
@@ -47,10 +49,13 @@ nextFlip = win.getFutureFlipTime(clock='ptb')
 sample_sound.play(when=nextFlip)
 core.wait(2)
 
-# select level 
+# select level
+
 select_message.draw()
 win.flip()
-event.waitKeys()
+timer = core.Clock()
+keys = event.waitKeys(keyList=['1','2','3','4','5'], modifiers=False, timeStamped=timer)
+print(keys)
 
 # close
 win.close()
