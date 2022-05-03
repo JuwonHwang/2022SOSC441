@@ -4,7 +4,7 @@ from random import *
 
 sample_sound = sound.Sound('I.wav')
 
-ws = [800, 600]
+ws = [1536, 864]
 black = [-1,-1,-1]
 
 def wp(position):
