@@ -97,9 +97,7 @@ with open('result/' + name + '_' + now + '.csv', 'w', newline='') as csvfile:
     writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
     writer.writeheader()
     
-    for i in range(5):
-        if block(writer):
-            break
+    block(writer)
 
 # close
 win.close()
