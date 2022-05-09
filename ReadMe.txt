@@ -9,3 +9,7 @@ Usage
 1. Install psychopy
 2. In Runner, Add main.py to task
 3. Run the task
+
+or 
+
+2. In terminal, Type `python main.py`
