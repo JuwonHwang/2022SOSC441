@@ -7,8 +7,8 @@ from datetime import datetime
 class Condition:
     def __init__(self):
         self.loudness = [0,1] # 0 : loud , 1 : soft
-        self.intensity = [1,2] #[1,2,3,4,5]
-        self.repetition = [1,2] #[1,2,3,4,5,6]
+        self.intensity = [1,2,3,4,5]
+        self.repetition = [1,2,3,4,5,6]
         self.cases = [tuple([i,j,k]) for i in self.loudness for j in self.intensity for k in self.repetition]
         shuffle(self.cases)
 
