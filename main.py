@@ -7,8 +7,8 @@ from datetime import datetime
 class Condition:
     def __init__(self):
         self.loudness = [0,1] # 0 : loud , 1 : soft
-        self.intensity = [1,2,3,4,5]
-        self.repetition = [1,2,3,4,5,6]
+        self.intensity = [1,2] #[1,2,3,4,5]
+        self.repetition = [1,2] #[1,2,3,4,5,6]
         self.cases = [tuple([i,j,k]) for i in self.loudness for j in self.intensity for k in self.repetition]
         shuffle(self.cases)
 
@@ -112,14 +112,48 @@ for i in cnd.intensity:
     win.flip()
     core.wait(0.5)
 
+anykey_massage = visual.TextStim(win, font='Malgun Gothic', color = 'white', text = 'press any key', height=0.5)
+anykey_massage.draw()
+win.flip()
 waitEsc()
 
-name = textBox.text.replace('\n','')
-with open('result/' + name + '_' + now + '.csv', 'w', newline='') as csvfile:
+name = textBox.text.replace('\n','') + '_' + now
+with open('result/' + name + '.csv', 'w', newline='') as csvfile:
     fieldnames = ['loudness', 'intensity', 'repetition', 'judgement']
     writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
     writer.writeheader()
     block(writer)
+
+# Ask difficulty and How good at imagining
+
+win.flip()
+core.wait(1.0)
+question_text = 'Was it difficult?\n1(Hard)  2  3  4  5(Easy)'
+question_massage = visual.TextStim(win, font='Malgun Gothic', color = 'white', text = question_text, height=0.15)
+question_massage.draw()
+win.flip()
+ans_diff = event.waitKeys(keyList=['1','2','3','4','5'], modifiers=False)[0]
+
+win.flip()
+core.wait(1.0)
+question_text = 'How good are you at imagining?\n1(Bad)  2  3  4  5(Good)'
+question_massage = visual.TextStim(win, font='Malgun Gothic', color = 'white', text = question_text, height=0.15)
+question_massage.draw()
+win.flip()
+ans_good = event.waitKeys(keyList=['1','2','3','4','5'], modifiers=False)[0]
+win.flip()
+
+with open('result/difficulty.csv','a',newline='') as difffile:
+    fieldnames = ['name','difficulty','good']
+    writer = csv.DictWriter(difffile, fieldnames=fieldnames)
+    writer.writerow({'name': name,
+                     'difficulty': ans_diff,
+                     'good': ans_good})
+
+end_text = 'Thank you'
+end_massage = visual.TextStim(win, font='Malgun Gothic', color = 'white', text = end_text, height=0.15)
+end_massage.draw()
+event.getKeys()
 
 # close
 win.close()
