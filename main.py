@@ -95,6 +95,25 @@ while 'return' not in keys:
     textBox.draw()
     win.flip()
 
+sound_text = 'Are you\nmale or female?\ntype [m/f]'
+sound_massage = visual.TextStim(win, font='Malgun Gothic', color = 'white', text = sound_text, height=0.15)
+sound_massage.draw()
+win.flip()
+
+sex = 'no'
+while True:
+    keys = event.getKeys()
+    if 'f' in keys:
+        sample_sound = [sound.Sound('sounds/female_s'+str(i+1)+'.wav') for i in range(5)]
+        sex = 'female'
+        break
+    elif 'm' in keys:
+        sample_sound = [sound.Sound('sounds/male_s'+str(i+1)+'.wav') for i in range(5)]
+        sex = 'male'
+        break
+    elif 'return' in keys:
+        break
+
 sample_text = 'We will present you with 5 levels of sound of increasing magnitude.'
 sample_massage = visual.TextStim(win, font='Malgun Gothic', color = 'white', text = sample_text, height=0.15)
 sample_massage.draw()
@@ -103,21 +122,22 @@ win.flip()
 waitEsc()
 
 for i in cnd.intensity:
-    intensity_massage = visual.TextStim(win, font='Malgun Gothic', color = 'white', text = str(i), height=0.5)
-    intensity_massage.draw()
-    win.flip()
-    nextFlip = win.getFutureFlipTime(clock='ptb')
-    sample_sound[i-1].play(when=nextFlip)
-    core.wait(0.5)
-    win.flip()
-    core.wait(0.5)
+    for j in range(3):
+        intensity_massage = visual.TextStim(win, font='Malgun Gothic', color = 'white', text = str(i), height=0.5)
+        intensity_massage.draw()
+        win.flip()
+        nextFlip = win.getFutureFlipTime(clock='ptb')
+        sample_sound[i-1].play(when=nextFlip)
+        core.wait(0.5)
+        win.flip()
+        core.wait(0.5)
 
 anykey_massage = visual.TextStim(win, font='Malgun Gothic', color = 'white', text = 'press any key', height=0.5)
 anykey_massage.draw()
 win.flip()
 waitEsc()
 
-name = textBox.text.replace('\n','') + '_' + now
+name = textBox.text.replace('\n','') + '_' + now + '_' + sex
 with open('result/' + name + '.csv', 'w', newline='') as csvfile:
     fieldnames = ['loudness', 'intensity', 'repetition', 'judgement']
     writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
